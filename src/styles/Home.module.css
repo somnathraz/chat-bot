@@ -41,6 +41,7 @@
 
 .grid {
   display: grid;
+  z-index: -1;
   grid-template-columns: repeat(4, minmax(25%, auto));
   max-width: var(--max-width);
   width: 100%;
@@ -74,12 +75,21 @@
 
 .center {
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   position: relative;
   padding: 4rem 0;
+  z-index: -1;
 }
-
+.center {
+  font-size: 45px;
+  font-weight: 800;
+}
+.center p {
+  font-weight: 400;
+  font-size: 20px;
+}
 .center::before {
   background: var(--secondary-glow);
   border-radius: 50%;
@@ -97,7 +107,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
@@ -201,7 +211,199 @@
     z-index: 1;
   }
 }
+.chatBody {
+  display: grid;
+  width: 100%;
+  padding: 20px 10px;
+  height: 100%;
+  gap: 20px;
+  flex-flow: column;
+  justify-content: flex-start;
+  overflow-y: scroll;
+}
+.receiveMsg {
+  width: 100%;
+  display: flex;
+  max-width: 70%;
+  word-wrap: break-word;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sentMsg {
+  width: 100%;
+  word-wrap: break-word;
+  display: flex;
+  flex-flow: column;
+  max-width: 70%;
+  font-size: 14px;
+  justify-self: flex-end;
+  justify-content: center;
+  align-items: flex-end;
+}
+.chatBody span {
+  background-color: aliceblue;
+  padding: 10px;
+  font-size: 14px;
+  color: #646464;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-bottom: 10px;
+}
+.optionDiv {
+  display: flex;
+  max-width: 100%;
+  word-wrap: break-word;
+  flex-flow: column;
 
+  font-size: 14px;
+  border-radius: 20px 20px 20px 0px;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.optionDiv p {
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.options {
+  background-color: #ededed;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  text-align: center;
+  color: blue !important;
+  cursor: pointer;
+  border-bottom: 1px solid #dedede;
+}
+.nOptions {
+  background-color: #ededed;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  text-align: center;
+  color: #646464;
+  cursor: pointer;
+  border-bottom: 1px solid #dedede;
+}
+.sentMsg span {
+  border-radius: 20px 20px 0px 20px;
+}
+.receiveMsg span {
+  border-radius: 20px 20px 20px 0px;
+}
+.chatBot {
+  position: absolute;
+  top: 60%;
+  left: 48%;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  border-radius: 4px;
+  align-items: center;
+  cursor: pointer;
+  z-index: 999;
+  justify-content: center;
+  background-color: rgb(213, 235, 255);
+}
+.icon {
+  font-size: 30px;
+  color: blue;
+}
+.chatWindow {
+  position: absolute;
+  background-color: white;
+  height: 540px;
+  z-index: 9999;
+  width: 350px;
+  border-radius: 20px 20px 0px 0px;
+}
+.chatbotWrapper {
+  display: flex;
+  width: 100%;
+  flex-flow: column;
+  align-items: center;
+  height: 100%;
+  border-radius: 20px 20px 0px 0px;
+  justify-content: space-between;
+}
+.headerChat {
+  display: flex;
+  position: relative;
+  padding: 30px 40px;
+  gap: 10px;
+  width: 100%;
+  border-radius: 20px 20px 0px 0px;
+  align-items: center;
+  background-color: aliceblue;
+}
+.headLeft {
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+}
+.headRight p {
+  font-size: 14px;
+}
+.headRight span {
+  font-size: 10px;
+  color: rgb(153, 255, 0);
+}
+.close {
+  position: absolute;
+  top: 40px;
+  cursor: pointer;
+  right: 20px;
+}
+.backIcon {
+  position: absolute;
+  font-size: 24px;
+  color: #646464;
+  left: 10px;
+  top: 40px;
+}
+.user {
+  font-size: 50px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+  color: black;
+}
+
+.headerChat p,
+.headerChat span {
+  font-size: 14px;
+}
+.chatFooter {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.chatFooter form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.chatFooter form input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 5px 10px;
+  background-color: aliceblue;
+  height: 50px;
+  border-radius: 4px;
+}
+.btn {
+  padding: 5px;
+  border: 0;
+  cursor: pointer;
+  color: blue;
+  outline: 0;
+  font-size: 30px;
+  background-color: transparent;
+}
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
@@ -216,6 +418,16 @@
 
   .logo {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

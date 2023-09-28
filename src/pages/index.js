@@ -1,11 +1,88 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import Head from "next/head";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import { useState, useEffect, useRef } from "react";
+import { BsFillChatLeftTextFill, BsFillSendFill } from "react-icons/bs";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import Image from "next/image";
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [openChatWindow, setOpenChatWindow] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [disableClick, setDisableClick] = useState(false);
+  const [receiveMsg, setReceiveMsg] = useState([
+    "Hi Somnath, I'm the Support Assistant.",
+    "I am here to help you and will connect you to a customer support agent (through call, chat or email) if I don't have the answer.",
+    {
+      messages: "What can i help you with?",
+      option: [
+        "When will the next batch start?",
+        "What is the course fee of data science course?",
+        "How many project is there in this course?",
+        "What is real work experience? How it will help me?",
+        "How to enroll in this course?",
+        "Other",
+        "Connect with our specialist",
+      ],
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
+  const chatContainerRef = useRef(null);
+
+  // Use the useEffect hook to scroll to the latest message whenever messages change
+  useEffect(() => {
+    scrollToLatestMessage();
+  }, [receiveMsg, messages]);
+
+  const scrollToLatestMessage = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    console.log("hello");
+  }, [messages]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Add user message to the chat
+    setMessages([...messages, { text: input, type: "user" }]);
+    setInput("");
+
+    // Implement your chatbot logic here and add responses to the chat
+    // Example: Call a function or API to get chatbot responses
+  };
+  const sendOption = async (msg) => {
+    if (disableClick) {
+      return; // Disable the onClick event
+    }
+    // Handle the click event here
+    console.log("Div clicked!");
+    // Disable the onClick event for this div after it's clicked
+    setDisableClick(true);
+
+    console.log({ text: msg, type: "user" });
+    setMessages([{ text: msg, type: "user" }]);
+    console.log(messages);
+    try {
+      const data = await fetch("/api/chatBot", {
+        method: "POST",
+        body: JSON.stringify(msg),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      if (data.status === 200) {
+      }
+    } catch (error) {}
+  };
   return (
     <>
       <Head>
@@ -16,39 +93,102 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.js</code>
-          </p>
+          <p>Get started by clicking the chat icon</p>
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
               target="_blank"
               rel="noopener noreferrer"
             >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
+              By SOMNATH
             </a>
           </div>
         </div>
 
         <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
+          CHAT BOT
+          <p>Powered by ChatGpt</p>
         </div>
+        <div className={styles.chatBot} onClick={() => setOpenChatWindow(true)}>
+          <BsFillChatLeftTextFill className={styles.icon} />
+        </div>
+        {openChatWindow ? (
+          <div className={styles.chatWindow}>
+            <div className={styles.chatbotWrapper}>
+              <div className={styles.headerChat}>
+                <p
+                  className={styles.close}
+                  onClick={() => setOpenChatWindow(false)}
+                >
+                  <AiFillCloseCircle style={{ fontSize: "20px" }} />
+                </p>
+                <div className={styles.headLeft}>
+                  <MdOutlineKeyboardArrowLeft className={styles.backIcon} />
+                  <div className="imgWrapper">
+                    <Image
+                      src="/images/robot-profile.png"
+                      alt="robot"
+                      height={30}
+                      width={30}
+                    />
+                  </div>
+                </div>
+                <div className={styles.headRight}>
+                  <p>Noob Robot</p>
+                  <span>online</span>
+                </div>
+              </div>
+              <div className={styles.chatBody} ref={chatContainerRef}>
+                <div className={styles.receiveMsg}>
+                  {receiveMsg.map((data, i) => {
+                    return typeof data === "string" ? (
+                      <span key={i}>{data}</span>
+                    ) : (
+                      <div className={styles.optionDiv} key={i}>
+                        <p>{data.messages}</p>
+                        {data.option.map((data, i) => {
+                          return (
+                            <span
+                              className={
+                                disableClick ? styles.nOptions : styles.options
+                              }
+                              key={i}
+                              onClick={() => {
+                                sendOption(data);
+                              }}
+                            >
+                              {data}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={styles.sentMsg}>
+                  {messages.map((data, i) => {
+                    return <span key={i}>{data.text}</span>;
+                  })}
+                </div>
+              </div>
+              <div className={styles.chatFooter}>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Type a message..."
+                    value={input}
+                    onChange={handleInputChange}
+                  />
+                  <button className={styles.btn} type="submit">
+                    <BsFillSendFill />
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
 
         <div className={styles.grid}>
           <a
@@ -110,5 +250,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }
