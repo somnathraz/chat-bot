@@ -10,22 +10,59 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [openChatWindow, setOpenChatWindow] = useState(true);
+  const [chatData, setChatData] = useState([]);
   const [messages, setMessages] = useState([]);
   const [disableClick, setDisableClick] = useState(false);
+  const [receivedMessageClicked, setReceivedMessageClicked] = useState(false);
   const [receiveMsg, setReceiveMsg] = useState([
-    "Hi Somnath, I'm the Support Assistant.",
-    "I am here to help you and will connect you to a customer support agent (through call, chat or email) if I don't have the answer.",
     {
-      messages: "What can i help you with?",
+      timestamp: Date.now() - 10000,
+      title: "Hi Somnath, I'm the Support Assistant.",
+      option: [],
+      tag: "send",
+    },
+    {
+      timestamp: Date.now() - 10000,
+      title:
+        "I am here to help you and will connect you to a customer support agent (through call, chat or email) if I don't have the answer.",
+      option: [],
+      tag: "send",
+    },
+
+    {
+      title: "How can I help you with?",
       option: [
-        "When will the next batch start?",
-        "What is the course fee of data science course?",
-        "How many project is there in this course?",
-        "What is real work experience? How it will help me?",
-        "How to enroll in this course?",
-        "Other",
-        "Connect with our specialist",
+        {
+          id: "batchDate",
+          ques: "When will the next batch start?",
+        },
+        {
+          id: "fee",
+          ques: "What is the course fee of data science course?",
+        },
+        {
+          id: "projects",
+          ques: "How many project is there in this course?",
+        },
+        {
+          id: "experience",
+          ques: "What is real work experience? How it will help me?",
+        },
+        {
+          id: "enroll",
+          ques: "How to enroll in this course?",
+        },
+        {
+          id: "Other",
+          ques: "Other",
+        },
+        {
+          id: "Specialist",
+          ques: "Connect with our specialist",
+        },
       ],
+      timestamp: Date.now() - 10000,
+      tag: "send",
     },
   ]);
   const [input, setInput] = useState("");
@@ -36,6 +73,19 @@ export default function Home() {
 
   // Use the useEffect hook to scroll to the latest message whenever messages change
   useEffect(() => {
+    console.log(messages, "inside UseEffect");
+    const sortedMessages = [...messages].sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
+    const sortedReceiveMsg = [...receiveMsg].sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
+
+    const combinedChatData = [...sortedMessages, ...sortedReceiveMsg];
+
+    combinedChatData.sort((a, b) => a.timestamp - b.timestamp);
+    console.log(combinedChatData, "combined");
+    setChatData(combinedChatData);
     scrollToLatestMessage();
   }, [receiveMsg, messages]);
 
@@ -46,48 +96,58 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    console.log("hello");
-  }, [messages]);
+  const handleReceivedMessageClick = () => {
+    setReceivedMessageClicked(true);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // Add user message to the chat
-    setMessages([...messages, { text: input, type: "user" }]);
+    setMessages([...messages, { text: input, type: "user", tag: "receive" }]);
     setInput("");
-
     // Implement your chatbot logic here and add responses to the chat
     // Example: Call a function or API to get chatbot responses
   };
-  const sendOption = async (msg) => {
+  const sendOption = async (msg, id) => {
     if (disableClick) {
       return; // Disable the onClick event
     }
     // Handle the click event here
-    console.log("Div clicked!");
+    // console.log("Div clicked!");
     // Disable the onClick event for this div after it's clicked
     setDisableClick(true);
 
-    console.log({ text: msg, type: "user" });
-    setMessages([{ text: msg, type: "user" }]);
-    console.log(messages);
+    // console.log({ text: msg, type: "user" });
+
+    // console.log(messages);
     try {
+      setMessages([
+        ...messages,
+        { title: msg, id: id, tag: "receive", timestamp: Date.now() - 10000 },
+      ]);
+
       const data = await fetch("/api/chatBot", {
         method: "POST",
-        body: JSON.stringify(msg),
+        body: JSON.stringify({
+          id: id,
+          ques: msg,
+        }),
         headers: {
-          "Content-type": "application/json",
+          "Content-Type": "application/json",
         },
-      });
+      }).then((t) => t.json());
+
       if (data.status === 200) {
+        console.log(data);
+        setReceiveMsg((prevMessages) => [...prevMessages, data]);
       }
     } catch (error) {}
   };
+
   return (
     <>
       <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Generated by create next app" />
+        <title>Chat-Bot</title>
+        <meta name="description" content="Chat Bot" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -105,10 +165,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.center}>
-          CHAT BOT
-          <p>Powered by ChatGpt</p>
-        </div>
+        <div className={styles.center}>CHAT BOT</div>
         <div className={styles.chatBot} onClick={() => setOpenChatWindow(true)}>
           <BsFillChatLeftTextFill className={styles.icon} />
         </div>
@@ -139,25 +196,61 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.chatBody} ref={chatContainerRef}>
-                <div className={styles.receiveMsg}>
+                {chatData.map((data, i) => {
+                  return (
+                    <div
+                      className={
+                        data.tag === "receive"
+                          ? styles.sentMsg
+                          : styles.receiveMsg
+                      }
+                      key={i}
+                    >
+                      <div className={styles.optionDiv}>
+                        <p>{data.title}</p>
+                        {data.option && data.option.length > 0
+                          ? data.option.map((optionData, j) => {
+                              return (
+                                <span
+                                  className={
+                                    disableClick
+                                      ? styles.nOptions
+                                      : styles.options
+                                  }
+                                  key={j}
+                                  onClick={() => {
+                                    sendOption(optionData.ques, optionData.id);
+                                  }}
+                                >
+                                  {optionData.ques}
+                                </span>
+                              );
+                            })
+                          : ""}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* <div className={styles.receiveMsg}>
                   {receiveMsg.map((data, i) => {
                     return typeof data === "string" ? (
                       <span key={i}>{data}</span>
                     ) : (
                       <div className={styles.optionDiv} key={i}>
-                        <p>{data.messages}</p>
-                        {data.option.map((data, i) => {
+                        <p>{data.title}</p>
+                        {data.option.map((optionData, j) => {
                           return (
                             <span
                               className={
                                 disableClick ? styles.nOptions : styles.options
                               }
-                              key={i}
+                              key={j}
                               onClick={() => {
-                                sendOption(data);
+                                sendOption(optionData.ques, optionData.id);
                               }}
                             >
-                              {data}
+                              {optionData.ques}
                             </span>
                           );
                         })}
@@ -165,12 +258,20 @@ export default function Home() {
                     );
                   })}
                 </div>
-                <div className={styles.sentMsg}>
-                  {messages.map((data, i) => {
-                    return <span key={i}>{data.text}</span>;
-                  })}
-                </div>
+
+                // <div className={styles.sentMsg}>
+                //   {messages.map((data, i) => {
+                //     // console.log(data, "data.text");
+                //     return (
+                //       <span key={i} name="span">
+                //         {data.text}
+                //       </span>
+                //     );
+                //   })}
+                // </div> */}
               </div>
+
+              {/* Input field for typing.. */}
               <div className={styles.chatFooter}>
                 <form onSubmit={handleSubmit}>
                   <input
@@ -189,65 +290,6 @@ export default function Home() {
         ) : (
           ""
         )}
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
       </main>
     </>
   );
