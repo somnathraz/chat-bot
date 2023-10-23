@@ -71,6 +71,31 @@ export default function Home() {
   };
   const chatContainerRef = useRef(null);
 
+  const shouldAutoScroll = useRef(true);
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+
+    // If the user manually scrolls up, disable auto-scroll
+    if (scrollTop + clientHeight < scrollHeight) {
+      shouldAutoScroll.current = false;
+    } else {
+      shouldAutoScroll.current = true;
+    }
+  };
+  useEffect(() => {
+    // ... other code ...
+
+    if (chatContainerRef.current) {
+      chatContainerRef.current.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
   // Use the useEffect hook to scroll to the latest message whenever messages change
   useEffect(() => {
     console.log(messages, "inside UseEffect");
@@ -86,11 +111,14 @@ export default function Home() {
     combinedChatData.sort((a, b) => a.timestamp - b.timestamp);
     console.log(combinedChatData, "combined");
     setChatData(combinedChatData);
-    scrollToLatestMessage();
   }, [receiveMsg, messages]);
-
+  useEffect(() => {
+    if (shouldAutoScroll.current) {
+      scrollToLatestMessage();
+    }
+  }, [chatData]);
   const scrollToLatestMessage = () => {
-    if (chatContainerRef.current) {
+    if (shouldAutoScroll.current && chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
@@ -107,15 +135,17 @@ export default function Home() {
     // Implement your chatbot logic here and add responses to the chat
     // Example: Call a function or API to get chatbot responses
   };
-  const sendOption = async (msg, id) => {
-    if (disableClick) {
-      return; // Disable the onClick event
-    }
+  const sendOption = async (msg, id, msgLength) => {
+    // if (disableClick) {
+    //   return; // Disable the onClick event
+    // }
     // Handle the click event here
     // console.log("Div clicked!");
     // Disable the onClick event for this div after it's clicked
-    setDisableClick(true);
-
+    // if (chatData.length === msgLength + 1) {
+    //   setDisableClick(true);
+    // }
+    // setDisableClick(false);
     // console.log({ text: msg, type: "user" });
 
     // console.log(messages);
@@ -139,6 +169,7 @@ export default function Home() {
       if (data.status === 200) {
         console.log(data);
         setReceiveMsg((prevMessages) => [...prevMessages, data]);
+        // setDisableClick(false);
       }
     } catch (error) {}
   };
@@ -195,7 +226,11 @@ export default function Home() {
                   <span>online</span>
                 </div>
               </div>
-              <div className={styles.chatBody} ref={chatContainerRef}>
+              <div
+                className={styles.chatBody}
+                ref={chatContainerRef}
+                onScroll={handleScroll}
+              >
                 {chatData.map((data, i) => {
                   return (
                     <div
@@ -210,16 +245,28 @@ export default function Home() {
                         <p>{data.title}</p>
                         {data.option && data.option.length > 0
                           ? data.option.map((optionData, j) => {
+                              console.log(
+                                chatData.length === i + 1,
+                                chatData.length,
+                                i + 1,
+                                "check"
+                              );
                               return (
                                 <span
                                   className={
-                                    disableClick
-                                      ? styles.nOptions
-                                      : styles.options
+                                    chatData.length === i + 1
+                                      ? styles.options
+                                      : styles.nOptions
                                   }
                                   key={j}
                                   onClick={() => {
-                                    sendOption(optionData.ques, optionData.id);
+                                    chatData.length === i + 1
+                                      ? sendOption(
+                                          optionData.ques,
+                                          optionData.id,
+                                          i
+                                        )
+                                      : null;
                                   }}
                                 >
                                   {optionData.ques}
