@@ -1,7 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { connectToDatabase } from "../../../lib/mongodb";
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
+  console.log(req.body, "req.body");
   if (req.method === "POST") {
     const chatData = await db.collection("chatBot").find({}).toArray();
     for (const key in chatData[0]) {
@@ -13,11 +13,22 @@ export default async function handler(req, res) {
                 res.status(200).json({
                   title: data.ans,
                   option: {
+                    id: "endChat",
                     title: "Is your Query Resolved?",
                     option: ["YES", "NO"],
                   },
                   status: 200,
-                  check: check,
+                  check: data.check,
+                  timestamp: Date.now() - 10000,
+                  tag: "send",
+                });
+              }
+              if (data.check === "end") {
+                res.status(200).json({
+                  title: data.ans,
+
+                  status: 200,
+                  check: data.check,
                   timestamp: Date.now() - 10000,
                   tag: "send",
                 });
@@ -36,6 +47,6 @@ export default async function handler(req, res) {
         }
       }
     }
-    console.log(chatData, "chatBot");
+    // console.log(chatData, "chatBot");
   }
 }

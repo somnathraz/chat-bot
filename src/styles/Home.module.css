@@ -132,6 +132,19 @@
     color: #646464;
    
 }
+.queryMsg{
+     position: relative;
+    top: 100px;
+    left: 1px;
+    border-radius: 10px;
+    height: 80px;
+      background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 2px;
+}
+
+.queryMsg span{
+  margin-left: 28px !important;
+}
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
@@ -395,6 +408,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+
 }
 .chatFooter form {
   width: 100%;
@@ -419,6 +433,7 @@
   font-size: 30px;
   background-color: transparent;
 }
+
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {

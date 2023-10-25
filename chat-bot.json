@@ -1,35 +1,35 @@
 {
   "batchDate": [
     {
-      "id": 1,
+      "id": "batchDate",
       "ques": "When will the next batch start?",
       "ans": {
         "title": "Select a course",
         "option": [
-          { "id": 1, "ques": "Data Science" },
-          { "id": 2, "ques": "Full Stack Development course" },
-          { "id": 3, "ques": "Business Analytics Course" }
+          { "id": "batchDate", "ques": "Data Science" },
+          { "id": "batchDate", "ques": "Full Stack Development course" },
+          { "id": "batchDate", "ques": "Business Analytics Course" }
         ]
       },
       "check": false,
       "tag": "send"
     },
     {
-      "id": 2,
+      "id": "batchDate",
       "ques": "Data Science",
       "ans": "The next Batch for Data science Course will start on 19 sept",
       "check": true,
       "tag": "send"
     },
     {
-      "id": 3,
+      "id": "batchDate",
       "ques": "Full Stack Development course",
       "ans": "The next Batch for Full Stack Development Course will start on 19 sept",
       "check": true,
       "tag": "send"
     },
     {
-      "id": 4,
+      "id": "batchDate",
       "ques": "Business Analytics Course",
       "ans": "The next Batch for Business Analytics Course will start on 19 sept",
       "check": true,
@@ -41,6 +41,15 @@
       "id": 1,
       "ques": "How many project is there in this course?",
       "ans": "You will work on 14+ projects with our data science course",
+      "tag": "send"
+    }
+  ],
+  "endChat": [
+    {
+      "id": "endChat",
+      "ques": "YES",
+      "ans": "Thank you!",
+      "check": "end",
       "tag": "send"
     }
   ]

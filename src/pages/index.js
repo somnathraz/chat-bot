@@ -98,7 +98,7 @@ export default function Home() {
   }, []);
   // Use the useEffect hook to scroll to the latest message whenever messages change
   useEffect(() => {
-    console.log(messages, "inside UseEffect");
+    // console.log(messages, "inside UseEffect");
     const sortedMessages = [...messages].sort(
       (a, b) => a.timestamp - b.timestamp
     );
@@ -109,7 +109,7 @@ export default function Home() {
     const combinedChatData = [...sortedMessages, ...sortedReceiveMsg];
 
     combinedChatData.sort((a, b) => a.timestamp - b.timestamp);
-    console.log(combinedChatData, "combined");
+    // console.log(combinedChatData, "combined");
     setChatData(combinedChatData);
   }, [receiveMsg, messages]);
   useEffect(() => {
@@ -123,7 +123,6 @@ export default function Home() {
         chatContainerRef.current.scrollHeight;
     }
   };
-
   const handleReceivedMessageClick = () => {
     setReceivedMessageClicked(true);
   };
@@ -135,6 +134,7 @@ export default function Home() {
     // Implement your chatbot logic here and add responses to the chat
     // Example: Call a function or API to get chatbot responses
   };
+
   const sendOption = async (msg, id, msgLength) => {
     // if (disableClick) {
     //   return; // Disable the onClick event
@@ -232,6 +232,7 @@ export default function Home() {
                 onScroll={handleScroll}
               >
                 {chatData.map((data, i) => {
+                  // console.log(data, "data..");
                   return (
                     <div
                       className={
@@ -243,14 +244,15 @@ export default function Home() {
                     >
                       <div className={styles.optionDiv}>
                         <p>{data.title}</p>
+
                         {data.option && data.option.length > 0
                           ? data.option.map((optionData, j) => {
-                              console.log(
-                                chatData.length === i + 1,
-                                chatData.length,
-                                i + 1,
-                                "check"
-                              );
+                              // console.log(
+                              //   chatData.length === i + 1,
+                              //   chatData.length,
+                              //   i + 1,
+                              //   "check"
+                              // );
                               return (
                                 <span
                                   className={
@@ -274,6 +276,35 @@ export default function Home() {
                               );
                             })
                           : ""}
+
+                        {data.check === true ? (
+                          <div className={styles.queryMsg}>
+                            <p>{data.option.title}</p>
+                            {console.log(data.option)}
+                            {data.option.option.map((dataS, id) => {
+                              return (
+                                <span
+                                  className={
+                                    chatData.length === i + 1
+                                      ? styles.options
+                                      : styles.nOptions
+                                  }
+                                  key={id}
+                                  onClick={() => {
+                                    chatData.length === i + 1
+                                      ? sendOption(dataS, data.option.id)
+                                      : null;
+                                  }}
+                                >
+                                  {dataS}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                        {data.check === "end" ? <p>{data.title}</p> : ""}
                       </div>
                     </div>
                   );
