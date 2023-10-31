@@ -36,6 +36,42 @@
       "tag": "send"
     }
   ],
+  "fee": [
+    {
+      "id": "fee",
+      "ques": "What is the course fee of data science course?",
+      "ans": {
+        "title": "Select a course",
+        "option": [
+          { "id": "fee", "ques": "Data Science" },
+          { "id": "fee", "ques": "Full Stack Development course" },
+          { "id": "fee", "ques": "Business Analytics Course" }
+        ]
+      },
+      "check": false,
+      "tag": "send"
+    },
+    {
+      "id": "fee",
+      "ques": "Data Science",
+      "ans": "Data Science Course starting fee is ₹ 65,000 + GST",
+      "check": true,
+      "tag": "send"
+    },
+    {
+      "id": "fee",
+      "ques": "Full Stack Development course",
+      "ans": "Data Science Course starting fee is ₹ 120,000 + GST",
+      "check": true,
+      "tag": "send"
+    },
+    {
+      "id": "fee",
+      "ques": "Business Analytics Course",
+      "ans": "Data Science Course starting fee is ₹ 60,000 + GST",
+      "tag": "send"
+    }
+  ],
   "projects": [
     {
       "id": "projects",
@@ -54,7 +90,7 @@
     {
       "id": "projects",
       "ques": "Data Science",
-      "ans": "Our Data Science course program covers a wide range of essential data science topics from the introductory level to the advanced level. Our comprehensive course curriculum trains you in data science projects in Python, C/C++, Advanced Machine Learning, Deep Learning, Applied Statistics and around 20+ tools (including Excel , SQL databases, etc).",
+      "ans": "Data science projects is in Python, C/C++, Advanced Machine Learning, Deep Learning, Applied Statistics and around 20+ tools (including Excel , SQL databases, etc) and for more details visit <a href='https://www.skillslash.com'>Skillslash</a>  .",
       "check": true,
       "tag": "send"
     },
@@ -68,7 +104,26 @@
     {
       "id": "projects",
       "ques": "Business Analytics Course",
-      "ans": "Our Data Science course program covers a wide range of essential data science topics from the introductory level to the advanced level. Our comprehensive course curriculum trains you in data science projects in Python, C/C++, Advanced Machine Learning, Deep Learning, Applied Statistics and around 20+ tools (including Excel , SQL databases, etc).",
+      "ans": "Business Analytics projects is in Python, C/C++, Advanced Machine Learning, Deep Learning, Applied Statistics and around 20+ tools (including Excel , SQL databases, etc) and for more details visit <a href='https://www.skillslash.com'>Skillslash</a> ",
+      "check": true,
+      "tag": "send"
+    }
+  ],
+  "experience": [
+    {
+      "id": "experience",
+      "ques": "What is real work experience? How it will help me?",
+      "ans": "It allows you to apply your skills and aptitudes in a professional environment and your skills can become developed in a way more suited to the world of work.",
+      "check": true,
+      "tag": "send"
+    }
+  ],
+  "enroll": [
+    {
+      "id": "enroll",
+      "ques": "How to enroll in this course?",
+      "ans": "Visit our website, Pay and enroll bas hogaya",
+      "check": true,
       "tag": "send"
     }
   ],
@@ -106,10 +161,7 @@
             "id": "enroll",
             "ques": "How to enroll in this course?"
           },
-          {
-            "id": "Other",
-            "ques": "Other"
-          },
+
           {
             "id": "Specialist",
             "ques": "Connect with our specialist"

@@ -41,7 +41,7 @@ export default function Home() {
         },
         {
           id: "projects",
-          ques: "Know how many project are there in this course?",
+          ques: "Know how many projects are there in this course?",
         },
         {
           id: "experience",
@@ -50,10 +50,6 @@ export default function Home() {
         {
           id: "enroll",
           ques: "How to enroll in this course?",
-        },
-        {
-          id: "Other",
-          ques: "Other",
         },
         {
           id: "Specialist",
