@@ -51,6 +51,45 @@
       "ans": "Thank you!",
       "check": "end",
       "tag": "send"
+    },
+    {
+      "id": "startChat",
+      "ques": "NO",
+      "ans": {
+        "title": "How can I help you with?",
+        "option": [
+          {
+            "id": "batchDate",
+            "ques": "When will the next batch start?"
+          },
+          {
+            "id": "fee",
+            "ques": "What is the course fee of data science course?"
+          },
+          {
+            "id": "projects",
+            "ques": "How many project is there in this course?"
+          },
+          {
+            "id": "experience",
+            "ques": "What is real work experience? How it will help me?"
+          },
+          {
+            "id": "enroll",
+            "ques": "How to enroll in this course?"
+          },
+          {
+            "id": "Other",
+            "ques": "Other"
+          },
+          {
+            "id": "Specialist",
+            "ques": "Connect with our specialist"
+          }
+        ]
+      },
+      "check": false,
+      "tag": "send"
     }
   ],
   "startChat": [
