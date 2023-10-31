@@ -41,7 +41,7 @@ export default function Home() {
         },
         {
           id: "projects",
-          ques: "How many project is there in this course?",
+          ques: "Know how many project are there in this course?",
         },
         {
           id: "experience",

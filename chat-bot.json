@@ -38,9 +38,37 @@
   ],
   "projects": [
     {
-      "id": 1,
-      "ques": "How many project is there in this course?",
-      "ans": "You will work on 14+ projects with our data science course",
+      "id": "projects",
+      "ques": "Know how many projects are there in this course?",
+      "ans": {
+        "title": "Select a course",
+        "option": [
+          { "id": "projects", "ques": "Data Science" },
+          { "id": "projects", "ques": "Full Stack Development course" },
+          { "id": "projects", "ques": "Business Analytics Course" }
+        ]
+      },
+      "check": false,
+      "tag": "send"
+    },
+    {
+      "id": "projects",
+      "ques": "Data Science",
+      "ans": "Our Data Science course program covers a wide range of essential data science topics from the introductory level to the advanced level. Our comprehensive course curriculum trains you in data science projects in Python, C/C++, Advanced Machine Learning, Deep Learning, Applied Statistics and around 20+ tools (including Excel , SQL databases, etc).",
+      "check": true,
+      "tag": "send"
+    },
+    {
+      "id": "projects",
+      "ques": "Full Stack Development course",
+      "ans": "Full stack developers use modern development tools to create and deploy applications that are both functional and aesthetically pleasing. These tools include: HTML5 + CSS3, JavaScript + jQuery, ReactJs + Node.js",
+      "check": true,
+      "tag": "send"
+    },
+    {
+      "id": "projects",
+      "ques": "Business Analytics Course",
+      "ans": "Our Data Science course program covers a wide range of essential data science topics from the introductory level to the advanced level. Our comprehensive course curriculum trains you in data science projects in Python, C/C++, Advanced Machine Learning, Deep Learning, Applied Statistics and around 20+ tools (including Excel , SQL databases, etc).",
       "tag": "send"
     }
   ],
