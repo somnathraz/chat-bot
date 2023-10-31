@@ -28,7 +28,6 @@ export default function Home() {
       option: [],
       tag: "send",
     },
-
     {
       title: "How can I help you with?",
       option: [
@@ -167,7 +166,7 @@ export default function Home() {
       }).then((t) => t.json());
 
       if (data.status === 200) {
-        console.log(data);
+        // console.log(data);
         setReceiveMsg((prevMessages) => [...prevMessages, data]);
         // setDisableClick(false);
       }
@@ -280,8 +279,9 @@ export default function Home() {
                         {data.check === true ? (
                           <div className={styles.queryMsg}>
                             <p>{data.option.title}</p>
-                            {console.log(data.option)}
+                            {/* {console.log(data.option, "283")} */}
                             {data.option.option.map((dataS, id) => {
+                              console.log(data);
                               return (
                                 <span
                                   className={

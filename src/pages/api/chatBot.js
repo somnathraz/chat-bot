@@ -26,7 +26,6 @@ export default async function handler(req, res) {
               if (data.check === "end") {
                 res.status(200).json({
                   title: data.ans,
-
                   status: 200,
                   check: data.check,
                   timestamp: Date.now() - 10000,
