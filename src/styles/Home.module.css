@@ -118,31 +118,28 @@
   position: relative;
 }
 
-.sendOption{
-      background-color: aliceblue;
-    padding: 10px;
-    font-size: 14px;
-    color: blue;
-   
+.sendOption {
+  background-color: aliceblue;
+  padding: 10px;
+  font-size: 14px;
+  color: blue;
 }
-.options{
-      background-color: aliceblue;
-    padding: 10px;
-    font-size: 14px;
-    color: #646464;
-   
+.options {
+  background-color: aliceblue;
+  padding: 10px;
+  font-size: 14px;
+  color: #646464;
 }
-.queryMsg{
-     position: relative;
-    top: 100px;
-    left: 1px;
-    border-radius: 10px;
-    height: 80px;
-      background-color: white;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 2px;
+.queryMsg {
+  position: relative;
+
+  left: 1px;
+  border-radius: 10px;
+  height: 80px;
+  background-color: white;
 }
 
-.queryMsg span{
+.queryMsg span {
   margin-left: 28px !important;
 }
 /* Enable hover only on non-touch devices */
@@ -270,11 +267,11 @@
   align-items: flex-end;
 }
 .chatBody span {
-  background-color: aliceblue;
+  background-color: #f0f0f0;
   padding: 10px;
+  border-radius: 4px;
   font-size: 14px;
   color: #646464;
-  animation: fadeIn 0.3s ease-in-out;
   margin-bottom: 10px;
 }
 .optionDiv {
@@ -294,7 +291,6 @@
 .optionDiv p {
   text-align: left;
   padding: 10px;
-  margin-bottom: 10px;
 }
 .options {
   background-color: #ededed;
@@ -408,7 +404,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-
 }
 .chatFooter form {
   width: 100%;

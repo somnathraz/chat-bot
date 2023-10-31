@@ -243,7 +243,7 @@ export default function Home() {
                       key={i}
                     >
                       <div className={styles.optionDiv}>
-                        <p>{data.title}</p>
+                        <p id="chat">{data.title}</p>
 
                         {data.option && data.option.length > 0
                           ? data.option.map((optionData, j) => {
@@ -280,8 +280,9 @@ export default function Home() {
                         {data.check === true ? (
                           <div className={styles.queryMsg}>
                             <p>{data.option.title}</p>
-                            {console.log(data.option)}
+
                             {data.option.option.map((dataS, id) => {
+                              console.log(dataS);
                               return (
                                 <span
                                   className={
@@ -304,7 +305,11 @@ export default function Home() {
                         ) : (
                           ""
                         )}
-                        {data.check === "end" ? <p>{data.title}</p> : ""}
+                        {/* {data.check === "end" ? (
+                          <p id="chat">{data.title}</p>
+                        ) : (
+                          ""
+                        )} */}
                       </div>
                     </div>
                   );
